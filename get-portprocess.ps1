@@ -26,28 +26,30 @@ function get-portprocess ([int]$port) {
  
 
     
-    # Custom return object
-    $returnvalue = [PSCustomObject]@{
-        'ProcessName' = $processinformation.Name
-        'PID' = $processinformation.ProcessId
-        'ParentProcess' = $parent_process.Name
-        'PPID' = $parent_process.ProcessId
-        'Port' = $port
-        'PortStatus' = $portinformation.State
-        'ExePath' = $processinformation.Path
-        'ExeCreationTime' = $fileinformation.CreationTime
-        'ExeLastAccessTime' = $fileinformation.LastAccessTime
-        'ExeLastWriteTime' = $fileinformation.LastWriteTime
-        'ExeSHA256' = $hash.Hash
-        'CertificateStatus' = $signatureinformation.Status
-        'CertificateSubject' = $signatureinformation.SignerCertificate.Subject
-        'CertificateIssuer' = $signatureinformation.SignerCertificate.Issuer
-        'CertificateSerialNumber' = $signatureinformation.SignerCertificate.SerialNumber
-    }
+        # Custom return object
+        $returnvalue = [PSCustomObject]@{
+            'ProcessName' = $processinformation.Name
+            'PID' = $processinformation.ProcessId
+            'ParentProcess' = $parent_process.Name
+            'PPID' = $parent_process.ProcessId
+            'Port' = $port
+            'PortStatus' = $portinformation.State
+            'ExePath' = $processinformation.Path
+            'ExeCreationTime' = $fileinformation.CreationTime
+            'ExeLastAccessTime' = $fileinformation.LastAccessTime
+            'ExeLastWriteTime' = $fileinformation.LastWriteTime
+            'ExeSHA256' = $hash.Hash
+            'CertificateStatus' = $signatureinformation.Status
+            'CertificateSubject' = $signatureinformation.SignerCertificate.Subject
+            'CertificateIssuer' = $signatureinformation.SignerCertificate.Issuer
+            'CertificateSerialNumber' = $signatureinformation.SignerCertificate.SerialNumber
+            
+        }
     # Return Value for funtion
     return $returnvalue
+    }
     # Write out error message
     catch {
-        Write-Host $_.Exception.Message -ForegroundColor Red
+       Write-Host $_.Exception.Message -ForegroundColor Red
     }
 }
