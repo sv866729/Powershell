@@ -23,8 +23,7 @@ function get-portprocess ([int]$port) {
         $parentpid = $processinformation.ParentProcessId
         # Get parent information
         $parent_process = Get-CimInstance -Class Win32_Process -Filter "ProcessId = $parentpid" -ErrorAction Stop
-    }
-    
+ 
 
     
     # Custom return object
