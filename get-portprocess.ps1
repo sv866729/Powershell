@@ -24,9 +24,9 @@ function get-portprocess ([int]$port) {
         # Get parent information
         $parent_process = Get-CimInstance -Class Win32_Process -Filter "ProcessId = $parentpid" -ErrorAction Stop
     }
-    # Write out error message
+    
 
-    }
+    
     # Custom return object
     $returnvalue = [PSCustomObject]@{
         'ProcessName' = $processinformation.Name
@@ -47,6 +47,8 @@ function get-portprocess ([int]$port) {
     }
     # Return Value for funtion
     return $returnvalue
+    # Write out error message
     catch {
         Write-Host $_.Exception.Message -ForegroundColor Red
+    }
 }
