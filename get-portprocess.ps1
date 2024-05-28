@@ -1,6 +1,3 @@
-# This is a function that takes in a port and provides information regarding it and the associated process
-
-# Defining function
 function get-portprocess ([int]$port) {
     # Basic error handling using the stop method for failure
     try {
@@ -23,9 +20,7 @@ function get-portprocess ([int]$port) {
         $parentpid = $processinformation.ParentProcessId
         # Get parent information
         $parent_process = Get-CimInstance -Class Win32_Process -Filter "ProcessId = $parentpid" -ErrorAction Stop
- 
 
-    
         # Custom return object
         $returnvalue = [PSCustomObject]@{
             'ProcessName' = $processinformation.Name
@@ -34,7 +29,7 @@ function get-portprocess ([int]$port) {
             'PPID' = $parent_process.ProcessId
             'Port' = $port
             'PortStatus' = $portinformation.State
-            'ExePath' = $processinformation.Path
+            'ExePath' = $processinformation.ExecutablePath
             'ExeCreationTime' = $fileinformation.CreationTime
             'ExeLastAccessTime' = $fileinformation.LastAccessTime
             'ExeLastWriteTime' = $fileinformation.LastWriteTime
@@ -43,13 +38,11 @@ function get-portprocess ([int]$port) {
             'CertificateSubject' = $signatureinformation.SignerCertificate.Subject
             'CertificateIssuer' = $signatureinformation.SignerCertificate.Issuer
             'CertificateSerialNumber' = $signatureinformation.SignerCertificate.SerialNumber
-            
         }
-        # Return Value for funtion
+        # Return Value for function
         return $returnvalue
     }
-    # Write out error message
     catch {
-       Write-Host $_.Exception.Message -ForegroundColor Red
+        Write-Host $_.Exception.Message -ForegroundColor Red
     }
 }
