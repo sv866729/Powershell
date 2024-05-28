@@ -45,8 +45,8 @@ function get-portprocess ([int]$port) {
             'CertificateSerialNumber' = $signatureinformation.SignerCertificate.SerialNumber
             
         }
-    # Return Value for funtion
-    return $returnvalue
+        # Return Value for funtion
+        return $returnvalue
     }
     # Write out error message
     catch {
