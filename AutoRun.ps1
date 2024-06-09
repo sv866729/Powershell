@@ -1,4 +1,4 @@
-﻿<#
+<#
 
 Author of scirpt: Samuel Valdez
 Creation Date: 6/9/2024
@@ -106,9 +106,6 @@ try{
         $yesterday = $true
         $yesterdaydata = Get-Content -Path $yesterdayfile
         $todaysdata = Get-Content -Path $datepath
-
-        Remove-Item -Path "C:\$COMPANYNAME\AutoRunDifferences.csv" -ErrorAction SilentlyContinue
-        Write-Host "Verbose: Removing yesterdays Comparision"
 
         Compare-Object -ReferenceObject $yesterdaydata -DifferenceObject $todaysdata | export-csv "C:\$COMPANYNAME\Comparisionautoruns.csv"
         Write-Host "Verbose: Comparison CSV Saved"
