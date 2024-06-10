@@ -7,7 +7,7 @@ This file is meant to be ran as a schedule task.
 
 Modifications needed:
     1. Updating Zip URL as needed
-    2. Changing Company name
+    2. Change Save Directory
 
 Company Name is the location on the C Drive where reports will be set.
 
@@ -30,39 +30,56 @@ Information:
 #>
 
 
-#Setting contstants
+
+
+######################
+# Setting contstants #
+######################
 $AutoRunUri = "https://download.sysinternals.com/files/Autoruns.zip"
-$COMPANYNAME = "Samv123INC"
-#Checking for Installation Directory and verifying permissions to edit C: Drive
+$SaveDirectory = "C:\Users\svaldez\Desktop\Project\2024\AutoRuns\TestingData"
+# How many days do you want to save on the machine before it gets deleted
+[Int32]$daysToSave = 90
+######################
+
+
+
+$runerrors = $false
+
+#######################################
+# Checking for Installation Directory #
+#######################################
 try{
-    if (Test-Path "C:\$COMPANYNAME"){
-        Write-Host "Verbose: $COMPANYNAME Folder is already Created"
+    if (Test-Path "$SaveDirectory"){
+        Write-Host "Verbose: $SaveDirectory Folder is already Created"
     }
     else{
-        new-item -Path "C:\" -ItemType Directory -Name "$COMPANYNAME"
-        Write-Host "Verbose: $COMPANYNAME Folder Created"
+        new-item -Path $SaveDirectory -ItemType Directory
+        Write-Host "Verbose: $SaveDirectory Folder Created"
     }
 }
 catch{
-    Write-Host "Error: Unable to Access C Drive to create folder"
-    exit
+    Write-Host "Error: Unable to add folder"
+    $runerrors = $true
 }
+#######################################
 
 
-# Downloading Auto Run and expanding zip and deleting old zip
+###############################################################
+# Downloading Auto Run and expanding zip and deleting old zip #
+###############################################################
 try{
 
     # Testing if it is already installed
-    if (Test-Path "C:\$COMPANYNAME\Autoruns"){
+    if (Test-Path "$SaveDirectory\Autoruns"){
         Write-Host "Verbose: AutoRun is already installed"
     }
 
     else{
-        Start-BitsTransfer -Source $AutoRunUri -Destination "C:\$COMPANYNAME\Autoruns.zip"
+        Start-BitsTransfer -Source $AutoRunUri -Destination "$SaveDirectory\Autoruns.zip"
         Write-host "Verbose: AutoRun Zip Downloaded"
-        Expand-Archive -Path "C:\$COMPANYNAME\Autoruns.zip"-DestinationPath "C:\$COMPANYNAME\Autoruns"
+        Expand-Archive -Path "$SaveDirectory\Autoruns.zip"-DestinationPath "$SaveDirectory\Autoruns"
         Write-Host "Verbose: Auto Run Unzipped"
-        Remove-Item -Path "C:\$COMPANYNAME\Autoruns.zip"
+        Remove-Item -Path "$SaveDirectory\Autoruns.zip"
         Write-Host "Verbose: Autoruns.zip has been deleted"
         
     }
@@ -70,20 +87,26 @@ try{
 }
 catch{
     Write-Host "Error: A issue occured when attempting to install AutoRun"
-    exit
+    $runerrors = $true
 }
+###############################################################
 
 
-# Run the scan ############Error######### File path on auto run
+
+################
+# Run the scan #
+################
+Write-Host "Verbose: Getting Date"
+[string]$date = Get-Date -Format MMddyyyy
+
 try{
-    Write-Host "Verbose: Getting Date"
-    [string]$date = Get-Date -Format MMddyyyy
-    $datepath = "C:\$COMPANYNAME\" + $date + "autorun.csv"
+    
+    $datepath = "$SaveDirectory\" + $date + "autorun.arn"
 
-    # Timing command output
+    # Timing command output and running scan
     Write-Host "Verbose: Starting AutoRun Scan"
     $time = Measure-Command -Expression{
-        $command = "C:\$COMPANYNAME\Autoruns\autorunsc.exe"
+        $command = "$SaveDirectory\Autoruns\autorunsc.exe"
         & $command | out-file -FilePath $datepath
     }
 
@@ -91,43 +114,142 @@ try{
 }
 catch{
     Write-Host "Error: A Error occured when running todays scan" 
-    exit 
+    $runerrors = $true 
 }
+################
 
 
-# Compare to the file from yesterday and remove yesterdays
-try{
-    Write-Host "Verbose: Getting Yesterdays date"
-    $yesterdaydate = (Get-Date).AddDays(-1).ToString('MMddyyyy')
-    $yesterdayfile = "C:\$COMPANYNAME\" + $yesterdaydate + "autorun.csv"
 
-    if (Test-Path $yesterdayfile){
-        Write-Host "Verbose: A file from yesterday was found"
-        $yesterday = $true
-        $yesterdaydata = Get-Content -Path $yesterdayfile
-        $todaysdata = Get-Content -Path $datepath
+############################
+# Getting Past Informatoin #
+############################
+# Getting yesterdays information
 
-        Compare-Object -ReferenceObject $yesterdaydata -DifferenceObject $todaysdata | export-csv "C:\$COMPANYNAME\Comparisionautoruns.csv"
-        Write-Host "Verbose: Comparison CSV Saved"
+Write-Host "Verbose: Getting Past information"
 
-        Remove-Item -Path $yesterdayfile
-        Write-Host "Verbose: Yesterdays file removed"
+$yesterdaydate = (Get-Date).AddDays(-1).ToString('MMddyyyy')
+$yesterdayfile = "$SaveDirectory\" + $yesterdaydate + "autorun.arn"
+$testyesterday = (Test-Path $yesterdayfile)
 
-        }
-    else{
-        $yesterday = $false
-        Write-Host "End: No file found for yesterday to compare to"
+# Getting file to delete
+$lastmonthday = (Get-Date).AddDays(-$daysToSave).ToString('MMddyyyy')
+$lastmonthdayfile = "$SaveDirectory\" + $lastmonthday + "autorun.arn"
+$testlastmonth = (Test-Path $lastmonthdayfile)
+############################
+
+
+
+#####################
+# Removing old file #
+#####################
+try {
+    if($testlastmonth){
+        Remove-Item -LiteralPath $lastmonthdayfile
+        Write-Host "Verbose: Deleting last months file"
+    }
+    else {
+        Write-Host "Verbose: No Baseline older than $daysToSave Days"
+    }
+}
+catch {
+    Write-Host "Error: Not able to delete $lastmonthdayfile"
+    $runerrors = $true
+}
+#####################
+
+
+
+#########################
+# Getting file contents #
+#########################
+$yesterdayContent = $null
+$todayContent = $null
+try {
+    if ($testyesterday){
+        $yesterdayContent = Get-Content -LiteralPath $yesterdayfile
+        $todayContent = get-content -LiteralPath $datepath
+        Write-Host "Verbose: Got File Content"
+    }
+    else {
+        Write-Host "End: No File to compare to"
         exit
-        }
+    }
 }
-catch{
-    Write-Host "Error: A Error occur when comparing files"
-    exit
-}
-
-$contents = Get-Content .\Comparisionautoruns.csv
-if ($contents -ne $null){
-    Write-Host "Verbose: Differnece in AutoStartups from yesterday"
+catch {
+    Write-Host "Error: A error occured when getting file data"
+    $runerrors = $true
 }
 
-Write-Host "End: Completed Successfully"
+#########################
+
+
+
+##########################################
+# Comparing yesterday and todays content #
+##########################################
+
+$filedifference = $false
+
+if ($yesterdayContent -ne $todayContent){
+    Write-Host "Verbose: Difference in Files"
+    $filedifference = $true
+}
+##########################################
+
+
+
+############################
+# Test and create Log File #
+############################
+$logpath = "$SaveDirectory\logfile_autorun.csv"
+$logpathtest = Test-Path $logpath
+
+if($logpathtest){
+    write-host "Verbose: Log file already exists"
+}
+else{
+    new-item -Path $logpath -ItemType File
+    Write-Host "Verbose: Log file created"
+}
+############################
+
+
+
+#####################
+# Creating log data #
+#####################
+#Holds log data
+$logoutput = @()
+
+#Error log
+$errorouput = [PSCustomObject]@{
+    Event = "RunError"
+    EventDate = $date
+}
+
+#Differnece log
+$differencelog = [PSCustomObject]@{
+    Event = "Difference"
+    EventDate = $date
+}
+
+#adding log data
+if($filedifference){
+    $logoutput += $differencelog
+}
+
+#adding log data
+if($runerrors){
+    $logoutput += $errorouput
+}
+
+Write-Host "Verbose: Adding Data to log Object"
+#####################
+
+
+
+#####################
+# Write to log file #
+#####################
+$logoutput | export-csv $logpath -Append
+#####################
