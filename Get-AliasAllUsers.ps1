@@ -10,8 +10,6 @@ Usage:
 function Get-AliasAllUsers {
     param(
         [Parameter(Mandatory=$true)]
-        [string]$domain, #This will be the alias domain
-        [Parameter(Mandatory=$true)]
         [string]$ou
     )
  
