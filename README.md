@@ -88,5 +88,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any questions or support, please reach out to:
 
-- **Author**: [Samuel Valdez](mailto:your.email@example.com)
-- **GitHub**: [Sv866729](https://github.com/yourusername)
+- **Author**: [Samuel Valdez](https://www.linkedin.com/in/samuel-v-656034279/)
+- **GitHub**: [Sv866729](https://github.com/sv866729/)
