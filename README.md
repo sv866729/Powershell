@@ -69,7 +69,10 @@ To get started with the scripts in this repository:
     ```
 - **Dependencies**: Run the script to load the funtion into a session
 - **Notes**: This script does not execute by default and is only a funtion
-  
+
+### Building Blocks
+### Microsoft 365 Related
+### Windows Security Related
 
 ## Usage
 Open PowerShell and navigate to the script's location. Execute the script with the required parameters using the details listed in the Script Overview section and the header of the script.
