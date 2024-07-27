@@ -1,3 +1,10 @@
+<#
+Author: Samuel Valdez
+
+Description:
+    Connects to Microsoft Graph, retrieves all users, and enforces Multi-Factor Authentication (MFA) for each user by sending a PATCH request to the Microsoft Graph API.
+
+#>
 # Connect to Microsoft Graph with the necessary scopes
  Connect-MgGraph -Scopes "User.ReadWrite.All", "Policy.ReadWrite.AuthenticationMethod"
 
