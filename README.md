@@ -184,7 +184,7 @@ To get started with the scripts in this repository:
 #### Microsoft 365 Related: `Revoke-SessionsForAllUsersGRAPH.ps1`
 
 - **Description**: Connects to Microsoft Graph and revokes the sign-in sessions for all users. This script retrieves all users and revokes their sign-in sessions using the `Revoke-MgUserSignInSession` command.
-.
+
 - **Usage**: Basic usage example.
     ```powershell
     Revoke-SessionsForAllUsers
@@ -193,6 +193,41 @@ To get started with the scripts in this repository:
 - **Notes**: This script does not execute by default and is only a funtion
 
 ### Windows Security Related
+
+#### Windows Security Related: `Disable-WeakCiphers.ps1`
+
+- **Description**: Disables a list of weak cipher suites on a Windows machine. This script iterates over a predefined list of cipher suites and disables each one. It handles errors and provides feedback on the success or failure of disabling each cipher suite.
+
+- **Usage**: Basic usage example.
+    ```powershell
+    Disable-WeakCiphers
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Windows Security Related: `Get-EventMetadata.ps1`
+
+- **Description**: Retrieves detailed metadata for a specific event from the Windows Event Log. The function filters events by the specified event ID and log name, converts them to XML format, and extracts relevant information. It returns the event data as a `PSCustomObject` for easy manipulation and export.
+
+- **Usage**: Basic usage example.
+    ```powershell
+    Get-EventMetadata -EventId 4672 -LogName "Security"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Windows Security Related: `Get-PortProcess.ps1`
+
+- **Description**: Retrieves detailed information about the process that is listening on a specified TCP port. This function provides data about the process, its parent process, executable file properties, and digital signature details.
+
+.
+- **Usage**: Basic usage example.
+    ```powershell
+    Get-PortProcess -Port 80
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
 
 ## Usage
 Open PowerShell and navigate to the script's location. Execute the script with the required parameters using the details listed in the Script Overview section and the header of the script.
