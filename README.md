@@ -38,25 +38,38 @@ To get started with the scripts in this repository:
 
 ## Scripts Overview (IN PROGRESS)
 
-### Script 1: `ScriptName.ps1`
+### AD Related
 
-- **Description**: Brief description of what this script does.
+#### AD Related: `Get-AliasAllUsers.ps1`
+
+- **Description**: Used to get all Ad users and the proxyaddress
 - **Usage**: Basic usage example.
     ```powershell
-    .\ScriptName.ps1 -Parameter1 Value1 -Parameter2 Value2
+    Get-AliasAllUsers -ou "OU=Users,DC=example,DC=com"
     ```
-- **Dependencies**: Any dependencies or modules required.
-- **Notes**: Any additional notes about the script.
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
 
-### Script 2: `AnotherScript.ps1`
+#### AD Related: `Remove-AliasAllUsers.ps1`
 
-- **Description**: Brief description of what this script does.
+- **Description**: This funtion will get all the users and remove a alias based on the on specified domain.
 - **Usage**: Basic usage example.
     ```powershell
-    .\AnotherScript.ps1 -Parameter1 Value1
+    Remove-AliasAllUsers -domain "domain.com" -ou "OU=Users,DC=example,DC=com"
     ```
-- **Dependencies**: Any dependencies or modules required.
-- **Notes**: Any additional notes about the script.
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### AD Related: `Set-NewAliasAllUsers.ps1`
+
+- **Description**: This funtion will get all the users and set a new alias based on the on specified.
+- **Usage**: Basic usage example.
+    ```powershell
+    Set-NewAliasAllUsers -domain "domain.com" -ou "OU=Users,DC=example,DC=com"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+  
 
 ## Usage
 Open PowerShell and navigate to the script's location. Execute the script with the required parameters using the details listed in the Script Overview section and the header of the script.
@@ -90,3 +103,4 @@ For any questions or support, please reach out to:
 
 - **Author**: [Samuel Valdez](https://www.linkedin.com/in/samuel-v-656034279/)
 - **GitHub**: [Sv866729](https://github.com/sv866729/)
+
