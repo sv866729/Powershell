@@ -71,6 +71,67 @@ To get started with the scripts in this repository:
 - **Notes**: This script does not execute by default and is only a funtion
 
 ### Building Blocks
+
+#### Building Blocks `download-install.ps1`
+
+- **Description**: Used to download a file from a specified URL and initiate its installation.
+- **Usage**: Basic usage example.
+    ```powershell
+    download-install -url "https://example.com/file.exe"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Building Blocks: `error-handling.ps1`
+
+- **Description**: Executes a command and handles errors gracefully, providing customizable messages for success and failure.
+- **Usage**: Basic usage example.
+    ```powershell
+    error-handling -command "YourCommandHere"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Building Blocks: `Generate-Passphrase.ps1`
+
+- **Description**: Generates a passphrase using a specified word list and number of words, appending a random number at the end.
+- **Usage**: Basic usage example.
+    ```powershell
+    Generate-Passphrase -wordlist @("word1", "word2", "word3") -wordcount 4
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Building Blocks: `Gernerate-username.ps1`
+
+- **Description**: Generates usernames based on first and last names from a CSV file, optionally adding a random number to each username.
+- **Usage**: Basic usage example.
+    ```powershell
+    Generate-usernames -csvpath "C:\path\to\your\file.csv"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Building Blocks: `get-hexcode.ps1`
+
+- **Description**: Converts a decimal value to its hexadecimal representation, ensuring it is formatted to an 8-character code with leading zeros.
+- **Usage**: Basic usage example.
+    ```powershell
+    get-hexcode -decimalvalue 123
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Building Blocks: `install-moduleIfNeeded.ps1`
+
+- **Description**: Checks if a PowerShell module is installed and installs it if not already present.
+- **Usage**: Basic usage example.
+    ```powershell
+    Install-ModuleIfNeeded -ModuleName "ModuleName"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
 ### Microsoft 365 Related
 ### Windows Security Related
 
