@@ -1,3 +1,22 @@
+<#
+Author: Samuel Valdez
+Function: Generate-usernames
+
+Description:
+    Generates usernames based on first and last names from a CSV file, optionally adding a random number to each username.
+
+Usage:
+    1. Run the function:
+        Generate-usernames -csvpath "C:\path\to\your\file.csv"
+    2. Provide the path to the CSV file containing first and last names.
+
+Parameters:
+    - csvpath (mandatory): Path to the CSV file containing first and last names.
+    - RemoveFirstRow (optional): If set to $false, includes the first row of the CSV file (default: $true).
+    - addrandomnumber (optional): If set to $true, adds a random number to each generated username (default: $true).
+    
+#>
+
 function Generate-usernames([string]$csvpath,$RemoveFirstRow = $true,$addrandomnumber = $true){
     #Create a array for Usernames to be stored
     $userdata = @()
