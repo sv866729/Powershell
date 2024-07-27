@@ -132,7 +132,66 @@ To get started with the scripts in this repository:
 - **Dependencies**: Run the script to load the funtion into a session
 - **Notes**: This script does not execute by default and is only a funtion
 
+
 ### Microsoft 365 Related
+
+#### Microsoft 365 Related: `BlockingAllSignIns365MSOL.ps1`
+
+- **Description**: Connects to Microsoft Online Services and blocks credentials for all users.
+
+#### Microsoft 365 Related: `EnableSecDefaultsGRAPH.ps1`
+
+- **Description**: This script installs the Microsoft.Graph.Identity.SignIns module, connects to Microsoft Graph with specific scopes, and ensures that Security Defaults are enabled. If Security Defaults is not enabled, it will be enabled by the script. It handles authentication, checks the current status of Security Defaults, and reports any errors encountered during the process. Finally, it disconnects from Microsoft Graph.
+
+
+#### Microsoft 365 Related: `EnforcingLegacyMfaGRAPH.ps1`
+
+- **Description**: Connects to Microsoft Graph, retrieves all users, and enforces Multi-Factor Authentication (MFA) for each user by sending a PATCH request to the Microsoft Graph API.
+
+#### Microsoft 365 Related: `Remove-InboxRulesByNameEXCH.ps1`
+
+- **Description**: Connects to Exchange Online, retrieves all user mailboxes, and removes any inbox rules that contain a specified string in their name. The script installs the required module if not already installed, connects to Exchange Online, processes each mailbox, and disconnects from Exchange Online.
+
+- **Usage**: Basic usage example.
+    ```powershell
+    Remove-InboxRulesByName -RuleNameSubstring "(Migrated)"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Microsoft 365 Related: `Reset-M365UserPasswordsMSOL.ps1`
+
+- **Description**: Connects to Microsoft Online Services, retrieves a list of all users, and resets the passwords for all users except the specified admin account. Generates random passwords and exports the list of users with their new passwords to a CSV file at the specified location.
+
+- **Usage**: Basic usage example.
+    ```powershell
+    Reset-UserPasswords -AdminAccount "admin@example.com" -FilePath "C:\Path\To\Save\passwordlist.csv"
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Microsoft 365 Related: `Reset-MFAForAllUsersMSOL.ps1`
+
+- **Description**: Connects to Microsoft Online Services and resets the Multi-Factor Authentication (MFA) options for all users in Microsoft 365. This script retrieves all users and resets their MFA settings using `Reset-MsolStrongAuthenticationMethodByUpn`.
+
+- **Usage**: Basic usage example.
+    ```powershell
+    Reset-MFAForAllUsers
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
+#### Microsoft 365 Related: `Revoke-SessionsForAllUsersGRAPH.ps1`
+
+- **Description**: Connects to Microsoft Graph and revokes the sign-in sessions for all users. This script retrieves all users and revokes their sign-in sessions using the `Revoke-MgUserSignInSession` command.
+.
+- **Usage**: Basic usage example.
+    ```powershell
+    Revoke-SessionsForAllUsers
+    ```
+- **Dependencies**: Run the script to load the funtion into a session
+- **Notes**: This script does not execute by default and is only a funtion
+
 ### Windows Security Related
 
 ## Usage
