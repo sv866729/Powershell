@@ -18,6 +18,9 @@ Notes:
     - The function uses the `-Confirm:$false` parameter to avoid prompting for confirmation during disconnection.
 
 #>
+##################################################
+ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRR
+This script is not working due to a error when  attempting to delete a rule it may be a syntax issue
 
 
 
