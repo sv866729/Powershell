@@ -1,0 +1,26 @@
+# Connect to Exchange Online
+Connect-ExchangeOnline 
+
+# Get Mailboxes
+$mailboxes = Get-Mailbox -ResultSize Unlimited
+
+# Prepare output file
+$outputFile = "MailboxRulesOutput.txt"
+"Mailbox Rules Report" | Out-File -FilePath $outputFile -Encoding utf8
+"========================" | Out-File -FilePath $outputFile -Append -Encoding utf8
+
+# Get Rules
+foreach ($mailbox in $mailboxes) {
+    $rules = Get-InboxRule -Mailbox $mailbox.Alias
+    if ($rules -ne $null) {
+        Add-Content -Path $outputFile -Value "Mailbox: $($mailbox.Alias)"
+        Add-Content -Path $outputFile -Value "-----------------------"
+        foreach ($rule in $rules) {
+            $ruleInfo = $rule | Format-List | Out-String
+            Add-Content -Path $outputFile -Value $ruleInfo
+        }
+    }
+}
+
+# Optionally, output the results to the console as well
+Get-Content -Path $outputFile
