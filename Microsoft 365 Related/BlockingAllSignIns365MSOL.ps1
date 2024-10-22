@@ -15,6 +15,9 @@ Notes:
     - This script assumes you are using the Microsoft Online Services PowerShell module.
 
 #>
+$adminaccount = "EnterADMINACCOUNT"
+
+
 function Install-ModuleIfNeeded {
     param (
         [string]$ModuleName
@@ -35,5 +38,14 @@ Install-ModuleIfNeeded -ModuleName "MSOnline"
 
 connect-msolservice -ErrorAction Stop
 $users = get-msoluser
-forEach($user in $users){Set-MsolUser -UserPrincipalName $user.UserPrincipalName -BlockCredential $true}
+forEach($user in $users){
+    if($user.UserPrincipalName -ne $adminaccount){
+        Set-MsolUser -UserPrincipalName $user.UserPrincipalName -BlockCredential $true
+    }
+}
+$blockedUsers = Get-MsolUser | Where-Object { $_.BlockCredential -eq $true }
+
+Write-Host "All Blocked Users" -ForegroundColor Cyan
+Write-Host $blockedUsers
+
 Disconnect-msolservice
