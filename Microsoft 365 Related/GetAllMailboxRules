@@ -1,0 +1,38 @@
+# Connect to Exchange Online
+Connect-ExchangeOnline 
+
+$mailboxes = Get-Mailbox -ResultSize Unlimited
+
+# Initialize an array to hold all rules
+$allRules = @()
+
+foreach ($mailbox in $mailboxes) {
+    Write-Host ""
+    Write-Host "User: $($mailbox.Alias)"
+    Write-Host "--------------------------------------------"
+    
+    $rules = Get-InboxRule -Mailbox $mailbox.Alias
+    
+    if ($rules) {
+        # Add mailbox alias to each rule
+        foreach ($rule in $rules) {
+            $rule | Add-Member -MemberType NoteProperty -Name MailboxAlias -Value $mailbox.Alias
+            $allRules += $rule
+        }
+        
+        Write-Host "Collected rules for $($mailbox.Alias)"
+    } else {
+        Write-Host "No inbox rules found for $($mailbox.Alias)"
+    }
+
+    Write-Host "-----------------END------------------------"
+    Write-Host ""
+}
+
+# Define the path for the combined CSV file in the current directory
+$csvPath = ".\All_InboxRules.csv"
+
+# Export all rules to a single CSV file
+$allRules | Export-Csv -Path $csvPath -NoTypeInformation
+
+Write-Host "Exported all inbox rules to $csvPath"
