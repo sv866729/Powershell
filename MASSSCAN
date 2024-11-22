@@ -1,0 +1,32 @@
+# Define the subnets
+$subnets = @{
+    "site1" = "192.168.1"
+    "site2" = "192.222.1"
+    "site3" = "192.121.3"
+    "site4" = "2.2.2"
+}
+
+# Define the endpoints
+$ends = @(
+    "200", "201", "202", "203", "204", "205"
+)
+
+# Initialize an array for IPs
+$ips = @()
+
+# Generate IPs by combining subnets and endpoints
+foreach ($subnet in $subnets.Values) {
+    foreach ($end in $ends) {
+        $ips += "$subnet.$end"
+    }
+}
+
+# Join the IPs into a comma-delimited string
+$ipsString = $ips -join ","
+
+# Define the Nmap path and arguments
+$nmappath = "C:\Program Files (x86)\Nmap\nmap.exe"
+$arguments = @("-sV", "-O", "-p 22,443,80", $ipsString,"")
+
+# Start the Nmap process
+Start-Process -FilePath $nmappath -ArgumentList $arguments
