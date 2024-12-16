@@ -8,10 +8,10 @@ $allRules = @()
 
 foreach ($mailbox in $mailboxes) {
     Write-Host ""
-    Write-Host "User: $($mailbox.Alias)"
+    Write-Host "User: $($mailbox.PrimarySmtpAddress)"
     Write-Host "--------------------------------------------"
     
-    $rules = Get-InboxRule -Mailbox $mailbox.Alias
+    $rules = Get-InboxRule -Mailbox $mailbox.PrimarySmtpAddress
     
     if ($rules) {
         # Add mailbox alias to each rule
@@ -20,9 +20,9 @@ foreach ($mailbox in $mailboxes) {
             $allRules += $rule
         }
         
-        Write-Host "Collected rules for $($mailbox.Alias)"
+        Write-Host "Collected rules for $($mailbox.PrimarySmtpAddress)"
     } else {
-        Write-Host "No inbox rules found for $($mailbox.Alias)"
+        Write-Host "No inbox rules found for $($mailbox.PrimarySmtpAddress)"
     }
 
     Write-Host "-----------------END------------------------"
