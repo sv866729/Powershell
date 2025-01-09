@@ -27,6 +27,7 @@ foreach ($subnet in $subnets.GetEnumerator()) {
             "-O",            # OS detection
             "-p", "22,443,80", # Ports to scan (SSH, HTTPS, HTTP)
             "-sS",           # SYN scan
+            "-vv"
             $ipRange,        # IP range argument
             "-oA", $filename # Output file (basename without extension)
         )
