@@ -2,7 +2,7 @@
 Import-Module ActiveDirectory
 
 # Define the function
-function Update-ADUserPasswords {
+function Update-ADAllUserPasswords {
     [CmdletBinding()]
     param (
         [Parameter()]
