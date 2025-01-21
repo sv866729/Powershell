@@ -61,7 +61,7 @@ Options:
 -t                        Test mode. Disables actual changes to user accounts. Only logs intended actions.
 
 Example:
-Update-ADAllUserPasswords -ChangeAtNextLogin -EnforcePasswordExpiration -AllowPasswordChanges -OutputFile 'C:\Logs\UpdatedPasswords.csv' -ExcludedAccounts @('user1', 'user2') -WordCount 5 -v
+Update-ADAllUserPasswords -ChangeAtNextLogin -EnforcePasswordExpiration -AllowPasswordChanges -OutputFile 'C:\Logs\UpdatedPasswords.csv' -ExcludedAccounts @('user1', 'user2') -WordCount 5 -v -t
 "@
         Write-Host $helpMessage
         return
