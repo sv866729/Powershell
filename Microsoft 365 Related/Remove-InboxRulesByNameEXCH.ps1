@@ -19,10 +19,6 @@ Notes:
 
 #>
 ##################################################
-ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRR
-This script is not working due to a error when  attempting to delete a rule it may be a syntax issue
-
-
 
 
 function Remove-InboxRulesByName {
@@ -50,6 +46,7 @@ function Remove-InboxRulesByName {
     # Install the ExchangeOnlineManagement module if needed
     Install-ModuleIfNeeded -ModuleName "ExchangeOnlineManagement"
 
+    Import-Module -Name "ExchangeOnlineManagement"
     # Connect to Exchange Online
     Connect-ExchangeOnline 
 
@@ -74,5 +71,5 @@ function Remove-InboxRulesByName {
     }
 
     # Disconnect from Exchange Online
-    Disconnect-ExchangeOnline -Confirm:$false
+    Disconnect-ExchangeOnline
 }
