@@ -104,9 +104,6 @@ function Get-AllInboxRules {
     $allRules = @()
 
     foreach ($mailbox in $mailboxes) {
-        Write-Host ""
-        Write-Host "User: $($mailbox.PrimarySmtpAddress)"
-        Write-Host "--------------------------------------------"
         
         # Get inbox rules for each mailbox
         $rules = Get-InboxRule -Mailbox $mailbox.PrimarySmtpAddress
@@ -121,12 +118,7 @@ function Get-AllInboxRules {
             if ($v) {
                 Write-Host "Collected rules for $($mailbox.PrimarySmtpAddress)"
             }
-        } else {
-            Write-Host "No inbox rules found for $($mailbox.PrimarySmtpAddress)"
-        }
-
-        Write-Host "-----------------END------------------------"
-        Write-Host ""
+        } 
     }
 
     # Export all rules to a single CSV file
@@ -138,7 +130,7 @@ function Get-AllInboxRules {
             $allRules | Format-Table -AutoSize
         }
     } else {
-        Write-Host "No inbox rules were collected."
+        Write-Host "No inbox rules were collected. No File was created" -ForegroundColor Red
     }
 
 }
