@@ -1,0 +1,11 @@
+function Get-GraphCommandScopes {
+    param (
+        [array]$commands
+    )
+    $scopes = @()
+    foreach ($command in $commands) {
+        $scopes += Find-MgGraphCommand $command | Select-Object -ExpandProperty Permissions | Select-Object -ExpandProperty Name
+    }
+    $scopes = $scopes | Select-Object -Unique
+    return $scopes
+}
